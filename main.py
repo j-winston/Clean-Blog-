@@ -29,9 +29,21 @@ def contact():
 #     def post():
 #         return render_template("post.html", post=entry.body)
 
-@app.route("/post.html")
-def post():
-    return render_template("post.html", post=blog_json[1])
+@app.route("/post/blog/<post_id>")
+def get_blog(post_id):
+    for entry in blog_json:
+        if entry['id'] == int(post_id):
+            post_body = entry['body']
+            post_title = entry['title']
+            post_subtitle = entry['subtitle']
+
+            break
+        else:
+            post_body = "No entry found"
+            post_title = "none"
+    return render_template('post.html', subtitle=post_subtitle, title=post_title, body=post_body)
+
+
 
 
 if __name__ == "__main__":
