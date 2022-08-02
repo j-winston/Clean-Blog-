@@ -7,7 +7,7 @@ app = Flask(__name__)
 # Get blog posts
 response = requests.get(url="https://api.npoint.io/1c1d666d0ff707b8e0d4")
 blog_json = response.json()
-print(blog_json)
+
 
 @app.route("/")
 def home():
@@ -24,7 +24,14 @@ def contact():
     return render_template("contact.html")
 
 
-#
+# for entry in blog_json:
+#     @app.route(f"/{entry['title']}")
+#     def post():
+#         return render_template("post.html", post=entry.body)
+
+@app.route("/post.html")
+def post():
+    return render_template("post.html", post=blog_json[1])
 
 
 if __name__ == "__main__":
