@@ -36,7 +36,6 @@ def get_blog(post_id):
             post_body = entry['body']
             post_title = entry['title']
             post_subtitle = entry['subtitle']
-
             break
         else:
             post_body = "No entry found"
