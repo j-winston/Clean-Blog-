@@ -38,15 +38,16 @@ def get_blog(post_id):
     return render_template('post.html', subtitle=post_subtitle, title=post_title, body=post_body)
 
 
-@app.route("/form-entry", methods=['POST'])
-def receive_data():
-    print(f"{request.form['name']}")
-    print(f"{request.form['email']}")
-    print(f"{request.form['phone-number']}")
-    print(f"{request.form['message']}")
-
-    return "<h1>Successfully sent your message</h1>"
-
+@app.route("/contact.html", methods=['POST', 'GET'])
+def form():
+    if request.method == 'GET':
+        return render_template("contact.html")
+    else:
+        print(f"{request.form['username']}")
+        print(f"{request.form['email']}")
+        print(f"{request.form['phone-number']}")
+        print(f"{request.form['message']}")
+        return "<h1>Successfully sent your message</h1>"
 
 
 
