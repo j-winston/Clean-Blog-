@@ -24,11 +24,6 @@ def contact():
     return render_template("contact.html")
 
 
-# for entry in blog_json:
-#     @app.route(f"/{entry['title']}")
-#     def post():
-#         return render_template("post.html", post=entry.body)
-
 @app.route("/post/blog/<post_id>")
 def get_blog(post_id):
     for entry in blog_json:
@@ -41,6 +36,18 @@ def get_blog(post_id):
             post_body = "No entry found"
             post_title = "none"
     return render_template('post.html', subtitle=post_subtitle, title=post_title, body=post_body)
+
+
+@app.route("/form-entry", methods=['POST'])
+def receive_data():
+    print(f"{request.form['name']}")
+    print(f"{request.form['email']}")
+    print(f"{request.form['phone-number']}")
+    print(f"{request.form['message']}")
+
+    return "<h1>Successfully sent your message</h1>"
+
+
 
 
 
