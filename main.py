@@ -1,5 +1,11 @@
+from smtplib import SMTP
 import requests
 from flask import Flask, render_template, request
+from user_auth import USER_NAME, PASSWORD
+from email.mime.multipart import MIMEMultipart
+from email.mime.text import MIMEText
+
+
 
 app = Flask(__name__)
 
@@ -43,10 +49,29 @@ def form():
     if request.method == 'GET':
         return render_template("contact.html")
     else:
-        print(f"{request.form['username']}")
-        print(f"{request.form['email']}")
-        print(f"{request.form['phone-number']}")
-        print(f"{request.form['message']}")
+        # Extract relevant information
+        email = request.form['email']
+        name = request.form['username']
+        phone_number = request.form['phone-number']
+        message_text = request.form['message']
+
+        # Setup MIME
+        message = MIMEMultipart()
+        message['from'] = email
+        message['to'] = USER_NAME
+        message['subject'] = "New form submission!"
+        message_content = message_text
+        message.attach(MIMEText(message_content, 'plain'))
+
+        string = message.as_string()
+
+        # Send via smtlib
+        with SMTP(host='smtp.gmail.com', port=587) as smtp:
+            smtp.starttls()
+            smtp.login(user=USER_NAME, password=PASSWORD)
+            smtp.sendmail(from_addr=email, to_addrs=USER_NAME, msg=string)
+            smtp.quit()
+
         return "<h1>Successfully sent your message</h1>"
 
 
